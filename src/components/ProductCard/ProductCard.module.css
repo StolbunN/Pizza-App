@@ -1,0 +1,88 @@
+.link {
+  text-decoration: none;
+}
+
+.card {
+  width: 323px;
+  border-radius: 18px;
+  box-shadow: 18px 18px 36px 0 rgba(211, 209, 216, 0.25);
+  overflow: hidden;
+}
+
+.product-img {
+  position: relative;
+  height: 165px;
+  padding: 13px;
+  margin-bottom: 25px;
+}
+
+.img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.buy-panel {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 20px;
+  color: #111719;
+  padding: 0 13px;
+  gap: 5px;
+  border-radius: 121px;
+}
+
+.price::after {
+  content: "₽";
+  color: var(--primary-color);
+}
+
+.cart {
+  width: 34px;
+  height: 34px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  transition: background 0.25s;
+  box-shadow: 0 8px 18px 0 rgba(254, 114, 76, 0.4);
+  cursor: pointer;
+}
+
+.cart:hover {
+  background: var(--primary-hover-color);
+}
+
+.description {
+  padding: 13px 13px 20px;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.ingredients {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text-secondary-color);
+}

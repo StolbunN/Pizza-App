@@ -1,0 +1,19 @@
+.position {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 12px;
+  transform: translateY(-50%);
+}
+
+.rating {
+  border-radius: 136px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 4px;
+  box-shadow: 0 6px 24px 0 rgba(254, 114, 76, 0.2);
+  background-color: #fff;
+  padding: 0 9px;
+}
