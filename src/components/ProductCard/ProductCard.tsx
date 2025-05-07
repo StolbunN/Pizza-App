@@ -7,22 +7,22 @@ function ProductCard(props: ProductCardProps) {
 
   return (
     <Link to={`/product/${props.id}`} className={styles["link"]}>
-      <div className={styles["card"]} id={props.id}>
+      <div className={styles["card"]}>
       <div className={styles["product-img"]}>
-        <img className={styles.img} src="./pizza.png" alt="" />
+        <img className={styles.img} src={props.img} alt="" />
         <div className={styles["buy-panel"]}>
           <div className={styles.price}>
             <span>{props.price}</span>
           </div>
           <button className={styles.cart}>
-            <img className={styles["cart__img"]} src={props.img} alt="" />
+            <img className={styles["cart__img"]} src="./cart-icon-white.svg" alt="" />
           </button>
         </div>
         <Rating appearance="rating-card_position" rating={props.rating}/>
       </div>
       <div className={styles.description}>
         <div className={styles.name}>
-          {props.productName}
+          {props.name}
         </div>
         <div className={styles.ingredients}>
           {props.ingredients}

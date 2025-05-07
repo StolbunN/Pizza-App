@@ -1,10 +1,8 @@
-import { HTMLAttributes } from 'react';
-
-export interface ProductCardProps extends HTMLAttributes<HTMLDivElement> {
-  id: string;
+export interface ProductCardProps {
+  id: number;
   price: number;
   img: string;
   rating: number;
-  productName: string;
+  name: string;
   ingredients: string;
 }
