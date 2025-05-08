@@ -1,26 +1,36 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import ProductCard from "../../components/ProductCard/ProductCard";
 import Search from "../../components/Search/Search";
 import { PREFIX } from "../../helpers/API";
 import { Product } from "../../interfaces/product.interface";
 import styles from "./Menu.module.css"
+import axios, { AxiosError } from "axios";
+import MenuList from "../../components/MenuList/MenuList";
 
 export function Menu() {
 
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>()
 
   const getMenu = async () => {
     try {
-      const res = await fetch(`${PREFIX}/products`);
-      if(!res.ok) {
-        return;
-      }
-      const data = await res.json() as Product[];
+      setIsLoading(true);
+      await new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), 2000);
+      });
+      const {data} = await axios.get<Product[]>(`${PREFIX}/products`);
       setProducts(data);
     } catch(err) {
+      if(err instanceof AxiosError) {
+        console.error(err.message);
+        setError(err.message);
+      }
       console.error(err);
       return;
+    }
+    finally {
+      setIsLoading(false)
     }
   }
 
@@ -35,17 +45,9 @@ export function Menu() {
         <Search type="search" placeholder="Введите блюдо или состав"/>
       </div>
       <main className={styles["products"]}>
-        {products.map(p => (
-          <ProductCard
-            key={p.id}
-            id={p.id}
-            price={p.price}
-            rating={p.rating}
-            img={p.image}
-            name={p.name}
-            ingredients={p.ingredients.join(", ")}
-        />
-        ))}
+        {error && <>{error}</>}
+        {!isLoading && <MenuList products={products}/>}
+        {isLoading && <>Загрузка...</>}
       </main>
     </div>  
   )

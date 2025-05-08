@@ -1,6 +1,7 @@
 .layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -16,6 +17,7 @@
 .content {
   flex: 1 1 100%;
   padding: 40px 60px;
+  overflow-y: scroll;
 }
 
 .menu {
