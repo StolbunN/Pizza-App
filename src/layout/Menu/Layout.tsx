@@ -1,10 +1,20 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import styles from "./Layout.module.css"
 import { User } from "../../components/User/User";
 import Button from "../../components/Button/Button";
 import cn from "classnames"
+import { MouseEvent } from "react";
 
 export function Layout() {
+
+  const navigate = useNavigate();
+
+  const logout = (event: MouseEvent) => {
+    event.preventDefault();
+    localStorage.removeItem("jwt");
+    navigate("/auth/login");
+  }
+
   return (
     <div className={styles["layout"]}>
       <div className={styles["sidebar"]}>
@@ -23,7 +33,7 @@ export function Layout() {
             Корзина
           </NavLink>
         </nav>
-        <Button className={styles["btn-exit"]}>
+        <Button className={styles["btn-exit"]} onClick={logout}>
           <img src="/off.svg" alt="" />
           <span>Выйти</span>
         </Button>
