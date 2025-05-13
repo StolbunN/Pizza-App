@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Header from "../../components/Header/Header";
+import Heading from "../../components/Heading/Heading";
 import Search from "../../components/Search/Search";
 import { PREFIX } from "../../helpers/API";
 import { IProduct } from "../../interfaces/product.interface";
@@ -38,7 +38,7 @@ function Menu() {
   return (
     <div>
       <div className={styles["header"]}>
-        <Header>Меню</Header>
+        <Heading>Меню</Heading>
         <Search type="search" placeholder="Введите блюдо или состав"/>
       </div>
       <main className={styles["products"]}>

@@ -3,11 +3,14 @@ import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { Cart } from './pages/Cart/Cart.tsx';
-import { Layout } from './layout/Layout/Layout.tsx';
+import { Layout } from './layout/Menu/Layout.tsx';
 import { ErrorPage } from './pages/Error/ErrorPage.tsx';
 import { Product } from './pages/Product/Product.tsx';
 import axios from 'axios';
 import { PREFIX } from './helpers/API.ts';
+import { AuthLayout } from './layout/Auth/AuthLayout.tsx';
+import { Login } from './pages/Login/Login.tsx';
+import { Register } from './pages/Register/Register.tsx';
 
 const Menu = lazy(() => import("./pages/Menu/Menu.tsx"))
 
@@ -43,6 +46,20 @@ const router = createBrowserRouter([
         errorElement: <>Ошибка</>
       }
     ]
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout/>,
+    children: [
+      {
+        path: "login",
+        element: <Login/>
+      },
+      {
+        path: "register",
+        element: <Register/>
+      }
+    ] 
   },
   {
     path: "*",
