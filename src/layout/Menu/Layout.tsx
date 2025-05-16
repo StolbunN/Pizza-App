@@ -4,14 +4,18 @@ import { User } from "../../components/User/User";
 import Button from "../../components/Button/Button";
 import cn from "classnames"
 import { MouseEvent } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { userActions } from "../../store/user.slice";
 
 export function Layout() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>()
 
   const logout = (event: MouseEvent) => {
     event.preventDefault();
-    localStorage.removeItem("jwt");
+    dispatch(userActions.logout())
     navigate("/auth/login");
   }
 
