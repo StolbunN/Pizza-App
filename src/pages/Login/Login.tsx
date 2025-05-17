@@ -3,13 +3,10 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import styles from "./Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { FormEvent, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { PREFIX } from "../../helpers/API";
-import { ILoginResponse } from "../../interfaces/auth.interface";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../store/user.slice";
-import { AppDispatch } from "../../store/store";
+import { FormEvent, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login, userActions } from "../../store/user.slice";
+import { AppDispatch, RootState } from "../../store/store";
 
 export type LoginForm = {
   email: {
@@ -21,39 +18,45 @@ export type LoginForm = {
 }
 
 export function Login() {
-
-  const [error, setError] = useState<string | null>();
   const navigate = useNavigate();
+  const {jwt, loginErrorMessage} = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const dispatch = useDispatch<AppDispatch>()
+  useEffect(() => {
+    if(jwt) {
+      navigate("/");
+    }
+  }, [jwt, navigate])
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setError(null)
+    dispatch(userActions.clearLoginError())
     const target = event.target as typeof event.target & LoginForm;
     const {email, password} = target;
     await sendLogin(email.value, password.value);
   }
 
   const sendLogin = async (email: string, password: string) => {
-    try {
-      const {data} = await axios.post<ILoginResponse>(`${PREFIX}/auth/login`, {
-        email,
-        password
-      })
-      dispatch(userActions.addJwt(data.access_token));
-      navigate("/");
-    } catch(error) {
-      if(error instanceof AxiosError) {
-        setError(error.response?.data.message);
-      }
-    }
+    dispatch(login({email, password}))
+
+    // try {
+    //   const {data} = await axios.post<ILoginResponse>(`${PREFIX}/auth/login`, {
+    //     email,
+    //     password
+    //   })
+    //   dispatch(userActions.addJwt(data.access_token));
+    //   navigate("/");
+    // } catch(error) {
+    //   if(error instanceof AxiosError) {
+    //     setError(error.response?.data.message);
+    //   }
+    // }
   }
 
   return (
     <div className={styles["login"]}>
       <Heading>Вход</Heading>
-      {error && <div className={styles["error"]}>{error}</div>}
+      {loginErrorMessage && <div className={styles["error"]}>{loginErrorMessage}</div>}
       <form className={styles["form"]} onSubmit={handleSubmit}>
         <div className={styles["field"]}>
           <label htmlFor="email">Ваш email</label>
