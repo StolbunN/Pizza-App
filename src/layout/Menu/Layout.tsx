@@ -3,15 +3,20 @@ import styles from "./Layout.module.css"
 import { User } from "../../components/User/User";
 import Button from "../../components/Button/Button";
 import cn from "classnames"
-import { MouseEvent } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import { userActions } from "../../store/user.slice";
+import { MouseEvent, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { getProfile, userActions } from "../../store/user.slice";
 
 export function Layout() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
+  const profile = useSelector((state: RootState) => state.user.profile);
+
+  useEffect(() => {
+    dispatch(getProfile())
+  }, [dispatch])
 
   const logout = (event: MouseEvent) => {
     event.preventDefault();
@@ -22,7 +27,7 @@ export function Layout() {
   return (
     <div className={styles["layout"]}>
       <div className={styles["sidebar"]}>
-        <User/>
+        <User name={profile?.name} email={profile?.email}/>
         <nav className={styles["menu"]}>
           <NavLink to="/" className={({isActive}) => cn(styles["link"], {
             [styles.active]: isActive

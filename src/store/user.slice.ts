@@ -3,6 +3,8 @@ import { loadState } from "../store/storage";
 import axios, { AxiosError } from "axios";
 import { ILoginResponse } from "../interfaces/auth.interface";
 import { PREFIX } from "../helpers/API";
+import { Profile } from "../interfaces/uset.interface";
+import { RootState } from "./store";
 
 export const JWT_PERSISTENT_STATE = "userData";
 
@@ -12,7 +14,8 @@ export interface IUserPersistentState {
 
 export interface IUserState {
   jwt: string | null;
-  loginErrorMessage?: string
+  loginErrorMessage?: string;
+  profile?: Profile;
 }
 
 const initialState: IUserState = {
@@ -36,6 +39,17 @@ export const login = createAsyncThunk(
   }
 )
 
+export const getProfile = createAsyncThunk<Profile, void, {state: RootState}>(
+  "user/getProfile",
+  async (_, thunkAPI) => {
+    const jwt = thunkAPI.getState().user.jwt
+    const {data} = await axios.get<Profile>(`${PREFIX}/user/profile`, {
+      headers: {Authorization: `Bearer ${jwt}`}
+    })
+    return data;
+  }
+)
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -55,9 +69,14 @@ export const userSlice = createSlice({
       state.jwt = action.payload.access_token;
     });
     builder.addCase(login.rejected, (state, action) => {
-      console.log(action);
       state.loginErrorMessage = action.error.message
-    })
+    });
+    builder.addCase(getProfile.fulfilled, (state, action) => {
+      state.profile = action.payload;
+    });
+    builder.addCase(getProfile.rejected, (state, action) => {
+      state.loginErrorMessage = action.error.message
+    });
   },
 });
 
