@@ -20,7 +20,7 @@ function ProductCard(props: ProductCardProps) {
     <Link to={`/product/${props.id}`} className={styles["link"]}>
       <div className={styles["card"]}>
       <div className={styles["product-img"]}>
-        <img className={styles.img} src={props.img} alt="" />
+        <img className={styles.img} src={props.image} alt="" />
         <div className={styles["buy-panel"]}>
           <div className={styles.price}>
             <span>{props.price}</span>

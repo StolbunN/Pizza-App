@@ -11,7 +11,7 @@ function MenuList({products}: MenuListProps) {
         id={p.id}
         price={p.price}
         rating={p.rating}
-        img={p.image}
+        image={p.image}
         name={p.name}
         ingredients={p.ingredients.join(", ")}
       />
