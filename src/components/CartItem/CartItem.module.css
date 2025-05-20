@@ -1,6 +1,5 @@
 .item {
   display: flex;
-  max-width: 512px;
   gap: 20px;
 }
 

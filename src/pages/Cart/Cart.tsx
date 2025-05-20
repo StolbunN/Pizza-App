@@ -8,11 +8,21 @@ import axios from "axios";
 import { PREFIX } from "../../helpers/API";
 import CartItem from "../../components/CartItem/CartItem";
 
+const DELIVERY_PRICE = 169;
+
 export function Cart() {
 
-  const [cartProducts, setCardProducts] = useState<IProduct[]>([])
+  const [cartProducts, setCardProducts] = useState<IProduct[]>([]);
   const items = useSelector((state: RootState) => state.cart.items);
-
+  const total = items
+    .map(item => {
+      const product = cartProducts.find(p => item.id === p.id);
+      if(!product) {
+        return 0;
+      }
+      return item.count * product.price;
+    })
+    .reduce((acc, item) => acc += item);
 
   const getItem = async (id: number) => {
     const {data} = await axios.get<IProduct>(`${PREFIX}/products/${id}`);
@@ -31,14 +41,32 @@ export function Cart() {
   return (
     <div className={styles["cart"]}>
       <Heading className={styles["headling"]}>Корзина</Heading>
-      <div className={styles["cart-items"]}>
-        {items.map(item => {
-          const product = cartProducts.find(p => item.id === p.id);
-          if(!product) {
-            return;
-          }
-          return <CartItem key={item.id} count={item.count} {...product}/>
-        })}
+      <div className={styles["content"]}>
+        <div className={styles["cart-items"]}>
+          {items.map(item => {
+            const product = cartProducts.find(p => item.id === p.id);
+            if(!product) {
+              return;
+            }
+            return <CartItem key={item.id} count={item.count} {...product}/>
+          })}
+        </div>
+        <div className={styles["cart-price"]}>
+          <div className={styles["line"]}>
+            <div className={styles["text"]}>Итог</div>
+            <div className={styles["price"]}>{total}&nbsp;</div>
+          </div>
+          <hr className={styles["hr"]}/>
+          <div className={styles["line"]}>
+            <div className={styles["text"]}>Доставка</div>
+            <div className={styles["price"]}>{DELIVERY_PRICE}&nbsp;</div>
+          </div>
+          <hr className={styles["hr"]}/>
+          <div className={styles["line"]}>
+            <div className={styles["text"]}>Итог <span className={styles["quantity"]}>({items.length})</span></div>
+            <div className={styles["price"]}>{total + DELIVERY_PRICE}&nbsp;</div>
+          </div>
+        </div>
       </div>
     </div>
   )

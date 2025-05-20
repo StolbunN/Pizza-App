@@ -2,8 +2,51 @@
   margin-bottom: 40px;
 }
 
+.content {
+  max-width: 512px;
+  width: 100%;
+}
+
 .cart-items {
   display: flex;
   flex-direction: column;
-  gap: 27px
+  gap: 27px;
+  margin-bottom: 35px;
+}
+
+.hr {
+  border: 1px solid #f1f2f3;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  margin-bottom: 15px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.price {
+  font-weight: 400;
+  font-size: 19px;
+  color: var(--text-color);
+}
+
+.price::after {
+  content: "₽";
+  font-weight: 400;
+  font-size: 14px;
+  color: #9796a1;
+}
+
+.quantity {
+  font-weight: 300;
+  font-size: 14px;
+  color: #bebebe;
 }
