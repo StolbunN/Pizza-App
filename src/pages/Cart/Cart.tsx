@@ -1,12 +1,15 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Heading from "../../components/Heading/Heading";
 import styles from "./Cart.module.css";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { IProduct } from "../../interfaces/product.interface";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { PREFIX } from "../../helpers/API";
 import CartItem from "../../components/CartItem/CartItem";
+import Button from "../../components/Button/Button";
+import { useNavigate } from "react-router-dom";
+import { cartActions } from "../../store/cart.slice";
 
 const DELIVERY_PRICE = 169;
 
@@ -14,6 +17,10 @@ export function Cart() {
 
   const [cartProducts, setCardProducts] = useState<IProduct[]>([]);
   const items = useSelector((state: RootState) => state.cart.items);
+  const jwt = useSelector((state: RootState) => state.user.jwt);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
   const total = items
     .map(item => {
       const product = cartProducts.find(p => item.id === p.id);
@@ -32,6 +39,16 @@ export function Cart() {
   const loadAllItems = async () => {
     const products = await Promise.all(items.map(item => getItem(item.id)))
     setCardProducts(products);
+  }
+
+  const checkout =async () => {
+    await axios.post(`${PREFIX}/order`, {
+      products: items
+    }, {
+      headers: {Authorization: `Bearer ${jwt}`}
+    })
+    navigate("/success");
+    dispatch(cartActions.clean());
   }
 
   useEffect(() => {
@@ -66,6 +83,9 @@ export function Cart() {
             <div className={styles["text"]}>Итог <span className={styles["quantity"]}>({items.length})</span></div>
             <div className={styles["price"]}>{total + DELIVERY_PRICE}&nbsp;</div>
           </div>
+        </div>
+        <div className={styles["checkout"]}>
+          <Button appearance="big" onClick={checkout}>оформить</Button>
         </div>
       </div>
     </div>

@@ -14,6 +14,10 @@
   margin-bottom: 35px;
 }
 
+.cart-price {
+  margin-bottom: 70px;
+}
+
 .hr {
   border: 1px solid #f1f2f3;
 }
@@ -49,4 +53,9 @@
   font-weight: 300;
   font-size: 14px;
   color: #bebebe;
+}
+
+.checkout {
+  display: flex;
+  justify-content: center;
 }
