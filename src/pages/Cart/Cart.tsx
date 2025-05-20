@@ -30,7 +30,7 @@ export function Cart() {
 
   return (
     <div className={styles["cart"]}>
-      <Heading>Корзина</Heading>
+      <Heading className={styles["headling"]}>Корзина</Heading>
       <div className={styles["cart-items"]}>
         {items.map(item => {
           const product = cartProducts.find(p => item.id === p.id);

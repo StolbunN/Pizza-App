@@ -1,0 +1,9 @@
+.headling {
+  margin-bottom: 40px;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 27px
+}

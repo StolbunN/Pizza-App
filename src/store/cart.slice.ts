@@ -29,6 +29,26 @@ export const cartSlice = createSlice({
         }
         return item;
       })
+    },
+    decrease: (state, action: PayloadAction<number>) => {
+      const existed = state.items.find(item => item.id === action.payload);
+      if(!existed) {
+        return;
+      }
+      if(existed.count === 1) {
+        state.items = state.items.filter(item => item.id !== action.payload);
+      } else {
+        state.items.map(item => {
+          if(item.id === action.payload) {
+            item.count -= 1;
+          }
+          return item;
+        })
+      }
+    },
+    remove: (state, action: PayloadAction<number>) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+      return;
     }
   }
 })
