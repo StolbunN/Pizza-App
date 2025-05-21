@@ -29,7 +29,7 @@ export function Cart() {
       }
       return item.count * product.price;
     })
-    .reduce((acc, item) => acc += item);
+    .reduce((acc, item) => acc += item, 0);
 
   const getItem = async (id: number) => {
     const {data} = await axios.get<IProduct>(`${PREFIX}/products/${id}`);
