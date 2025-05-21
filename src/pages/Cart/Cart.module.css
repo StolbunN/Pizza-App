@@ -14,6 +14,38 @@
   margin-bottom: 35px;
 }
 
+.promo-code {
+  height: 60px;
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.promo-code__input {
+  flex: 1;
+  padding: 0 170px 0 17px;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--text-color);
+  border: 1px solid #eee;
+  border-radius: 100px;
+}
+
+.promo-code__input::placeholder {
+  font-family: var(--font);
+  font-weight: 300;
+  font-size: 14px;
+  color: #bebebe;
+}
+
+.promo-code__button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 11px;
+}
+
 .cart-price {
   margin-bottom: 70px;
 }
@@ -47,9 +79,9 @@
   font-weight: 400;
   font-size: 14px;
   color: #9796a1;
-}
+} 
 
-.quantity {
+.quantity, .discount {
   font-weight: 300;
   font-size: 14px;
   color: #bebebe;

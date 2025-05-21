@@ -3,16 +3,21 @@ import { loadState } from './storage';
 
 export const CART_PERSISTENT_STATE = "cartData";
 
+export interface IcartPersistentState {
+  items: ICartItem[],
+}
+
 export interface ICartItem {
   id: number;
   count: number;
 }
 
 export interface ICartState {
-  items: ICartItem[]
+  items: ICartItem[],
+  discount?: number
 }
 
-const initialState: ICartState = loadState<ICartState>(CART_PERSISTENT_STATE) ?? {
+const initialState: ICartState = loadState<IcartPersistentState>(CART_PERSISTENT_STATE) ?? {
   items: []
 }
 
@@ -55,6 +60,12 @@ export const cartSlice = createSlice({
     },
     clean: (state) => {
       state.items = [];
+    },
+    addDiscount: (state, action: PayloadAction<string | undefined>) => {
+      if(!action.payload?.trim()){
+        return;
+      }
+      state.discount = Math.floor(Math.random() * 50) + 1;
     }
   }
 })

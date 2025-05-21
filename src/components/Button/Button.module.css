@@ -29,3 +29,11 @@
 .accent:hover {
   background: var(--primary-hover-color);
 }
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.button:disabled:hover {
+  background: var(--primary-color);
+}

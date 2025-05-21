@@ -1,6 +1,6 @@
 import { Await, useLoaderData, useNavigate } from "react-router-dom"
 import { IProduct } from "../../interfaces/product.interface";
-import { MouseEvent, Suspense } from 'react';
+import { Suspense } from 'react';
 import styles from "./Product.module.css";
 import Heading from "../../components/Heading/Heading";
 import Button from "../../components/Button/Button";
