@@ -8,7 +8,7 @@ function Rating({className, appearance, rating, ...props}: RatingProps) {
       [styles["position"]]: appearance === "rating-card_position"
     })}>
         <span>{rating}</span>
-        <img className={styles["rating__img"]} src="./rating.svg" alt="" />
+        <img className={styles["rating__img"]} src="/rating.svg" alt="" />
     </div>
   )
 }
