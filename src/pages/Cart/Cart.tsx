@@ -26,42 +26,42 @@ export function Cart() {
   const total = items
     .map(item => {
       const product = cartProducts.find(p => item.id === p.id);
-      if(!product) {
+      if (!product) {
         return 0;
       }
       return item.count * product.price;
     })
     .reduce((acc, item) => acc += item, 0);
 
-    const totalWithDiscount = discount ? Math.floor(total - total*(discount / 100)) : total
+  const totalWithDiscount = discount ? Math.floor(total - total * (discount / 100)) : total;
 
   const getItem = async (id: number) => {
-    const {data} = await axios.get<IProduct>(`${PREFIX}/products/${id}`);
-    return data
-  }
+    const { data } = await axios.get<IProduct>(`${PREFIX}/products/${id}`);
+    return data;
+  };
 
   const loadAllItems = async () => {
-    const products = await Promise.all(items.map(item => getItem(item.id)))
+    const products = await Promise.all(items.map(item => getItem(item.id)));
     setCardProducts(products);
-  }
+  };
 
-  const checkout =async () => {
+  const checkout = async () => {
     await axios.post(`${PREFIX}/order`, {
       products: items
     }, {
-      headers: {Authorization: `Bearer ${jwt}`}
-    })
+      headers: { Authorization: `Bearer ${jwt}` }
+    });
     navigate("/success");
     dispatch(cartActions.clean());
-  }
+  };
 
   const applyPromo = () => {
     dispatch(cartActions.addDiscount(promoRef.current?.value));
-  }
+  };
 
   useEffect(() => {
-    loadAllItems()
-  }, [items])
+    loadAllItems();
+  }, [items]);
 
   return (
     <div className={styles["cart"]}>
@@ -70,14 +70,14 @@ export function Cart() {
         <div className={styles["cart-items"]}>
           {items.map(item => {
             const product = cartProducts.find(p => item.id === p.id);
-            if(!product) {
+            if (!product) {
               return;
             }
-            return <CartItem key={item.id} count={item.count} {...product}/>
+            return <CartItem key={item.id} count={item.count} {...product} />;
           })}
         </div>
         <div className={styles["promo-code"]}>
-          <input disabled={discount ? true : false} ref={promoRef} type="text" className={styles["promo-code__input"]} placeholder="Применить"/>
+          <input disabled={discount ? true : false} ref={promoRef} type="text" className={styles["promo-code__input"]} placeholder="Применить" />
           <Button disabled={discount ? true : false} className={styles["promo-code__button"]} onClick={applyPromo}>Применить</Button>
         </div>
         <div className={styles["cart-price"]}>
@@ -85,17 +85,17 @@ export function Cart() {
             <div className={styles["text"]}>Итог</div>
             <div className={styles["price"]}>{total}&nbsp;</div>
           </div>
-          <hr className={styles["hr"]}/>
+          <hr className={styles["hr"]} />
           {discount && (<><div className={styles["line"]}>
             <div className={styles["text"]}>Промокод&nbsp;<span className={styles["discount"]}>(Скидка {discount}&#x25;)</span></div>
             <div className={styles["price"]}>{totalWithDiscount}&nbsp;</div>
           </div>
-          <hr className={styles["hr"]}/></>)}
+            <hr className={styles["hr"]} /></>)}
           <div className={styles["line"]}>
             <div className={styles["text"]}>Доставка</div>
             <div className={styles["price"]}>{items.length > 0 ? DELIVERY_PRICE : items.length}&nbsp;</div>
           </div>
-          <hr className={styles["hr"]}/>
+          <hr className={styles["hr"]} />
           <div className={styles["line"]}>
             <div className={styles["text"]}>Итог&nbsp;<span className={styles["quantity"]}>({items.length})</span></div>
             <div className={styles["price"]}>{items.length > 0 ? (totalWithDiscount + DELIVERY_PRICE) : items.length}&nbsp;</div>
@@ -106,5 +106,5 @@ export function Cart() {
         </div>
       </div>
     </div>
-  )
+  );
 }
